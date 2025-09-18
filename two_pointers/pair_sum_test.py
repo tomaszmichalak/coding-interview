@@ -47,6 +47,7 @@ def test_pair_sum_sorted():
     assert pair_sum_sorted([1, 2], 10) == []
     assert pair_sum_sorted([1, 1, 9, 10], 10) == [1, 9]
     assert pair_sum_sorted([1, 1, 0, 9, 10], 10) == [0, 10]
+    assert pair_sum_sorted([1, 2, 3, 4, 5, 8, 10], 10) == [2, 8]
 
 def __main__():
     test_pair_sum_sorted()
