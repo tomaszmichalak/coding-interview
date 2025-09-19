@@ -1,6 +1,8 @@
 # Coding Interview
+This repository contains coding interview practice problems and solutions from various sources.
 
-This repository contains coding interview practice problems and solutions.
+I decided to use Python as the main language for solving these problems - I want to improve my Python skills as well.
+It is free to use any code from this repository for your own learning and practice.
 
 ## How to run
 
@@ -16,9 +18,3 @@ pytest -s -v --log-cli-level=DEBUG
 - `-s` : Don't capture output (allows print statements and logging to show)
 - `-v` : Verbose mode (shows test names)
 - `--log-cli-level=DEBUG` : Show logging messages at DEBUG level and above
-
-## Two Pointers
-
-### Problem 1: Pair with Target Sum
-- return indices of the two numbers such that they add up to a specific target
-- it can be any (a single) pair, not necessarily unique
