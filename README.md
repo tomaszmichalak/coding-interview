@@ -11,7 +11,7 @@ cd project_group
 python -m venv ../.venv
 source ../.venv/bin/activate
 pip install -r requirements.txt
-pytest -s -v --log-cli-level=DEBUG
+pytest -s -vv --log-cli-level=DEBUG
 ```
 
 ### Pytest options explained:
