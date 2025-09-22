@@ -56,8 +56,26 @@ def invert_tree_dfs(node: TreeNode) -> TreeNode:
     node.right = tmp
     return node
 
+def invert_tree_bfs(node: TreeNode) -> TreeNode:
+    if node is None:
+        return
+    queue = deque([node])
+    while queue:
+        current = queue.popleft()
+        tmp = current.left
+        current.left = current.right
+        current.right = tmp
+        if current.left:
+            queue.append(current.left)
+        if current.right:
+            queue.append(current.right)
+    return node
+
 
 def test_invert_tree_dfs():
     assert tree_dfs(root) == [5, [1, [7], [6]], [8, [], [4]]]
     assert tree_dfs(expectedRoot) == [5, [8, [4], []], [1, [6], [7]]]
-    assert tree_dfs(invert_tree_dfs(root)) == tree_dfs(expectedRoot)
+    # invert
+    assert tree_dfs(invert_tree_dfs(root)) == [5, [8, [4], []], [1, [6], [7]]]
+    # back
+    assert tree_dfs(invert_tree_bfs(root)) == tree_dfs(root)
