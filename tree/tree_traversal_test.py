@@ -13,7 +13,6 @@ class TreeNode:
         self.left = None
         self.right = None
     def process(self, order: str) -> str:
-        log.info(f"Calling val: {self.val}")
         return order + str(self.val)
 
 root = TreeNode("4")
