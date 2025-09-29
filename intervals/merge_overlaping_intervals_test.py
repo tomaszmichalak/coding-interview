@@ -17,9 +17,6 @@ class Interval:
 
         return self.start == other.start and self.end == other.end
 
-intervals = [[3,4], [7,8], [2,5], [6,7], [1,4]]
-expected = [[1,5], [6,8]]
-
 # time complexity O(log(n))
 def sort(intervals: list[list[int]]) -> list[Interval]:
     sorted_intervals = sorted(intervals, key=itemgetter(0))
@@ -42,4 +39,8 @@ def merge_overlaping(intervals: list[list[int]]) -> list[Interval]:
     return merged
 
 def test_merge_overlaping():
-    assert merge_overlaping(intervals) == sort(expected)
+    assert merge_overlaping([[1, 5]]) == sort([[1,5]])
+    assert merge_overlaping([[1, 5], [2, 3]]) == sort([[1,5]])
+    assert merge_overlaping([[1, 5], [2, 6]]) == sort([[1,6]])
+    assert merge_overlaping([[1, 5], [7, 8]]) == sort([[1,5],[7,8]])
+    assert merge_overlaping([[3,4], [7,8], [2,5], [6,7], [1,4]]) == sort([[1,5], [6,8]])
