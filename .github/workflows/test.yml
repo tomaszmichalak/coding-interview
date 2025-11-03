@@ -22,22 +22,50 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     
-    - name: Install dependencies
+    - name: Discover and install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install pytest==8.4.2
+        python -m pip install --upgrade pip --root-user-action=ignore
+        
+        # Find all directories with requirements.txt
+        echo "Discovering modules with requirements.txt..."
+        TEST_DIRS=$(find . -maxdepth 2 -name "requirements.txt" -type f -exec dirname {} \; | sort -u)
+        
+        if [ -z "$TEST_DIRS" ]; then
+          echo "No modules with requirements.txt found. Installing pytest only."
+          pip install pytest==8.4.2 --root-user-action=ignore
+        else
+          echo "Found modules:"
+          echo "$TEST_DIRS"
+          
+          # Install pytest
+          pip install pytest==8.4.2 --root-user-action=ignore
+          
+          # Install dependencies from each requirements.txt (if they differ)
+          for dir in $TEST_DIRS; do
+            if [ -f "$dir/requirements.txt" ]; then
+              echo "Installing dependencies from $dir/requirements.txt"
+              pip install -r "$dir/requirements.txt" --root-user-action=ignore
+            fi
+          done
+        fi
     
-    - name: Run tests for all modules
+    - name: Run tests for all discovered modules
       run: |
-        # Find all directories containing tests and run pytest
+        # Find all directories containing requirements.txt (indicates a module)
+        TEST_DIRS=$(find . -maxdepth 2 -name "requirements.txt" -type f -exec dirname {} \; | sort -u)
+        
+        if [ -z "$TEST_DIRS" ]; then
+          echo "No test modules found."
+          exit 0
+        fi
+        
+        echo "Testing discovered modules..."
         # Clean cache before each module to avoid import conflicts
-        for dir in hash_map_set graphs sorting linked_lists intervals tree two_pointers; do
-          if [ -d "$dir" ]; then
-            echo "Testing $dir..."
-            find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
-            find . -type f -name "*.pyc" -delete 2>/dev/null || true
-            pytest -v --log-cli-level=INFO "$dir" || exit 1
-          fi
+        for dir in $TEST_DIRS; do
+          echo "Testing $dir..."
+          find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
+          find . -type f -name "*.pyc" -delete 2>/dev/null || true
+          pytest -v --log-cli-level=INFO "$dir" || exit 1
         done
         
         echo "All module tests passed successfully!"

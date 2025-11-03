@@ -11,13 +11,6 @@ class ListNode:
         self.val = val
         self.next = next
 
-# double linked list node
-class DoubleListNode:
-    def __init__(self, val: int, next=None, prev=None):
-        self.val = val
-        self.next = next
-        self.prev = prev
-
 def reverse_linked_list(head: ListNode) -> ListNode:
     prev = None
     curr = head
