@@ -24,7 +24,8 @@ pip install -r requirements.txt
 pytest -s -vv --log-cli-level=DEBUG
 ```
 
-### Pytest options explained:
+### Pytest options
+
 - `-s` : Don't capture output (allows print statements and logging to show)
 - `-v` : Verbose mode (shows test names)
 - `--log-cli-level=DEBUG` : Show logging messages at DEBUG level and above
