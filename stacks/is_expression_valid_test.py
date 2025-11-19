@@ -18,20 +18,24 @@ class Stack:
         return len(self.items) == 0
 
 def is_expression_valid(s: str) -> bool:
+    if len(s) == 0:
+        return False
     stack = Stack()
-    opening_chars = "[{("
+    parentheses = {'(': ')', '[': ']', '{': '}'}
     for c in s:
-        if c in opening_chars:
+        if c in parentheses:
             stack.push(c)
         else:
             last_c = stack.pop()
-            if (last_c == '(' and c != ')') or (last_c == '[' and c != ']') or (last_c == '{' and c != '}'):
+            if c != parentheses[last_c]:
                 return False
     if not stack.is_empty():
         return False
     return True
 
 def test_stack():
+    assert is_expression_valid("") == False
+    assert is_expression_valid("(") == False
     assert is_expression_valid("()") == True
     assert is_expression_valid("([])") == True
     assert is_expression_valid("([)") == False
