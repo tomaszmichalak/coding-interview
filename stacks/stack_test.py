@@ -1,12 +1,3 @@
-import logging
-import sys
-from collections import deque
-
-
-log = logging.getLogger("my-logger")
-log.setLevel(logging.DEBUG)
-log.addHandler(logging.StreamHandler(sys.stdout))
-
 class Stack:
     def __init__(self):
         self.items = []
